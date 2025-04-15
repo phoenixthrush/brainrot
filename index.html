@@ -151,6 +151,7 @@
             if (fileArray && fileArray.length > 0) {
                 const randomFile = fileArray[0];
                 characterImage.src = `assets/${randomFile}`;
+                characterImage.onload = () => zoomIntoRandomSection();
                 characterImage.alt = randomKey.replace(/-/g, ' ');
                 correctAnswer = randomKey;
                 console.log(`Correct answer is: ${randomKey}`);
@@ -197,6 +198,17 @@
 
             setCookie('streak', streak, 7);
             updateStreakCounter();
+        };
+
+        const zoomIntoRandomSection = () => {
+            characterImage.style.objectFit = 'none';
+            characterImage.style.width = '200%';
+            characterImage.style.height = '200%';
+
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+
+            characterImage.style.objectPosition = `${x}% ${y}%`;
         };
 
         selectButton.addEventListener('click', checkAnswer);
