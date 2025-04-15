@@ -6,14 +6,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess Italian Brainrot Characters</title>
     <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        html,
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin: 20px 0;
+            color: #333;
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #streak-counter {
+            font-size: 1.4rem;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Guess the Italian Brainrot Character!</h1>
-    <img id="character-image" alt="Character Image"><br>
-    <div id="streak-counter">Streak: 0</div>
-    <select name="characters" id="character-select"></select>
-    <button id="select-button">Select</button>
+    <div class="game-container">
+        <h1>Guess the Italian Brainrot Character!</h1>
+        <img id="character-image" alt="Character Image"><br>
+        <div id="streak-counter">Streak: 0</div>
+        <select name="characters" id="character-select"></select>
+        <button id="select-button">Select</button>
+    </div>
 
     <script>
         const files = {
@@ -81,12 +161,14 @@
             videoElement.src = `assets/${videoSrc}`;
             videoElement.autoplay = true;
             videoElement.playsInline = true;
-            videoElement.style.maxWidth = "80%";
-            videoElement.style.border = "2px solid #ccc";
-            videoElement.style.borderRadius = "10px";
-            videoElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+
+            characterSelect.disabled = true;
+            selectButton.disabled = true;
 
             videoElement.addEventListener('ended', () => {
+                characterSelect.disabled = false;
+                selectButton.disabled = false;
+
                 location.reload();
             });
 
