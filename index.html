@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess Italian Brainrot Characters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #444;
+        }
+
+        img {
+            margin: 20px auto;
+            max-width: 300px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Guess the Italian Brainrot Character!</h1>
+    <img id="character-image"><br>
+    <select name="characters" id="character-select">
+        <option value="tralalero">Tralalero</option>
+        <option value="br-br-patapim">Brbr Patapim</option>
+        <option value="tung-tung-sahur">Tung Tung Sahur</option>
+    </select>
+    <button id="select-button">Select</button>
+
+    <script>
+        const files = {
+            "tralalero": ["images/tralalero1.jpg"],
+            "br-br-patapim": ["images/br-br-patapim.jpg"],
+            "tung-tung-sahur": ["images/tung1.jpg"]
+        };
+
+        const characterImage = document.getElementById('character-image');
+        const characterSelect = document.getElementById('character-select');
+        const selectButton = document.getElementById('select-button');
+
+        let correctAnswer = "";
+
+        const loadRandomCharacterImage = () => {
+            const keys = Object.keys(files);
+            const randomKey = keys[Math.floor(Math.random() * keys.length)];
+            const fileArray = files[randomKey];
+
+            if (fileArray && fileArray.length > 0) {
+                const randomFile = fileArray[Math.floor(Math.random() * fileArray.length)];
+                characterImage.src = `assets/${randomFile}`;
+                characterImage.alt = randomKey;
+                correctAnswer = randomKey;
+                console.log(`Correct answer is: ${randomKey}`);
+            }
+        };
+
+        const checkAnswer = () => {
+            const selectedValue = characterSelect.value;
+            if (selectedValue === correctAnswer) {
+                alert("Correct! You guessed it!");
+            } else {
+                alert("Wrong! Try again.");
+            }
+            loadRandomCharacterImage();
+        };
+
+        selectButton.addEventListener('click', checkAnswer);
+
+        loadRandomCharacterImage();
+    </script>
+</body>
+
+</html>
