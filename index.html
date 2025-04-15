@@ -11,6 +11,7 @@
 <body>
     <h1>Guess the Italian Brainrot Character!</h1>
     <img id="character-image" alt="Character Image"><br>
+    <div id="streak-counter">Streak: 0</div>
     <select name="characters" id="character-select"></select>
     <button id="select-button">Select</button>
 
@@ -28,8 +29,28 @@
         const characterImage = document.getElementById('character-image');
         const characterSelect = document.getElementById('character-select');
         const selectButton = document.getElementById('select-button');
+        const streakCounter = document.getElementById('streak-counter');
 
         let correctAnswer = "";
+
+        const setCookie = (name, value, days) => {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = `expires=${date.toUTCString()}`;
+            document.cookie = `${name}=${value};${expires};path=/`;
+        };
+
+        const getCookie = (name) => {
+            const nameEQ = `${name}=`;
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(nameEQ) === 0) {
+                    return cookie.substring(nameEQ.length, cookie.length);
+                }
+            }
+            return null;
+        };
 
         const populateSelectOptions = () => {
             characterSelect.innerHTML = "";
@@ -64,8 +85,18 @@
             videoElement.style.borderRadius = "10px";
             videoElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
 
+            videoElement.addEventListener('ended', () => {
+                location.reload();
+            });
+
             characterImage.replaceWith(videoElement);
         };
+
+        const updateStreakCounter = () => {
+            streakCounter.textContent = `Streak: ${streak}`;
+        };
+
+        let streak = parseInt(getCookie('streak')) || 0;
 
         const checkAnswer = () => {
             const selectedValue = characterSelect.value;
@@ -73,16 +104,22 @@
             playVideo(videoFile);
 
             if (selectedValue === correctAnswer) {
+                streak++;
                 alert("Correct! You guessed it!");
             } else {
+                streak = 0;
                 alert("Wrong! Try again.");
             }
+
+            setCookie('streak', streak, 7);
+            updateStreakCounter();
         };
 
         selectButton.addEventListener('click', checkAnswer);
 
         populateSelectOptions();
         loadRandomCharacterImage();
+        updateStreakCounter();
     </script>
 </body>
 
