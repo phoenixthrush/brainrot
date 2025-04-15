@@ -80,6 +80,7 @@
             const videoElement = document.createElement('video');
             videoElement.src = `assets/${videoSrc}`;
             videoElement.autoplay = true;
+            videoElement.playsInline = true;
             videoElement.style.maxWidth = "80%";
             videoElement.style.border = "2px solid #ccc";
             videoElement.style.borderRadius = "10px";
